@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginModel } from '../model/login-model';
+import { LoginService } from '../service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,10 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit{
   loginForm!:FormGroup;
   submitted = false;
-  constructor(private fb:FormBuilder,private router:Router){}
+  email:string | undefined;
+  password:string | undefined;
+  loginModel: LoginModel = new LoginModel;
+  constructor(private fb:FormBuilder,private router:Router,public loginservice:LoginService){}
   ngOnInit(): void 
   {
     this.loginForm = this.fb.group({
@@ -30,8 +35,14 @@ export class LoginComponent implements OnInit{
        {
           localStorage.setItem("email",this.loginForm.get('email')?.value);
           localStorage.setItem("password",this.loginForm.get('password')?.value);  
+          this.email=this.loginForm.get('email')?.value;
+          this.password=this.loginForm.get('password')?.value;
+          this.loginModel.userName=this.email;
+          this.loginModel.password=this.password;
           this.clear();
           this.loginForm.disable();
+          this.loginservice.login(this.loginModel);
+
           this.router.navigate(['registration']);
        }
   }
