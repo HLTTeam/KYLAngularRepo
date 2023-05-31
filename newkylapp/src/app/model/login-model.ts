@@ -1,6 +1,6 @@
 export class LoginModel{
 
-    userName:string | undefined;
+    email:string | undefined;
 
     password:string | undefined;
 

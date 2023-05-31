@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpErrorResponse,HttpParams} from '@angular/common/http';
 import { environment } from '../environment';
-import { LoginModel } from '../model/login-model';
-
+import { PasswordResetModel } from '../model/password-reset-model';
 
 @Injectable({
   providedIn: 'root'
 })
-
-export class LoginService {
+export class PasswordResetService {
 
   constructor(private http: HttpClient) { }
 
@@ -23,9 +21,8 @@ export class LoginService {
       })
     };
 
-
-    login(_loginModel:LoginModel) {
-      const _url = `${environment.loginURL}`;
+    reset(_resetModel:PasswordResetModel) {
+      const _url = `${environment.resetURL}`;
       let httpOptions = this.httpOptions;
       httpOptions = {
         headers: new HttpHeaders({
@@ -41,8 +38,7 @@ export class LoginService {
       let httpQueryParams: HttpParams =  new HttpParams();
      
       const options = { ...httpOptions, params: httpQueryParams };
-      return this.http.post(_url,_loginModel,options);
+      return this.http.put(_url,_resetModel,options);
     }
 
 }
-

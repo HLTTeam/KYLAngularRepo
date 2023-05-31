@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit{
           localStorage.setItem("password",this.loginForm.get('password')?.value);  
           this.email=this.loginForm.get('email')?.value;
           this.password=this.loginForm.get('password')?.value;
-          this.loginModel.userName=this.email;
+          this.loginModel.email=this.email;
           this.loginModel.password=this.password;
           this.clear();
           this.loginForm.disable();
