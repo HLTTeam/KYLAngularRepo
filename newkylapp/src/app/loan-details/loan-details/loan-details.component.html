@@ -1,0 +1,45 @@
+<div class="container">
+
+<h2>{{radioTitle}}</h2>
+<div class="space"></div>
+
+<label *ngFor="let radiobutton of radioItems">
+  <input type="radio" name="options" (click)="model.option = radiobutton"
+  [checked]="radiobutton === model.option">{{radiobutton}}
+</label>
+    <div class="form-group">
+      <label for="FieldName" class="control-label">Select a Bank</label>
+          <select class="form-control" style="width:10%"  required >
+              <option *ngFor="let division of divisionValues" [value]="division">
+                {{ division }}
+              </option>
+            </select>
+            
+    </div>
+
+    <div class="form-group">
+      <label for="FieldName" class="control-label">Type of loan</label>
+          <select class="form-control" style="width:10%" required >
+              <option *ngFor="let loan of loanValues" [value]="loan">
+                {{ loan }}
+              </option>
+            </select>
+            
+    </div>
+    Income:<input type="number" [(ngModel)]="income" /><br />
+    Expenses:<input type="number" [(ngModel)]="expenses" /><br />
+    Credit Amount:<input type="number" [(ngModel)]="credit" /><br />
+
+    <button mat-raised-button class="btn btn-danger">Check Eligibility</button><br/>
+
+
+Loan Amount:<input type="number" [(ngModel)]="loanAmount" /><br />
+Tenure in Months:<input type="number" [(ngModel)]="tenure" /> <br />
+interest:
+<input type="number" [(ngModel)]="interest" />
+<button (click)="cal()">Calculate</button>
+<h1>EMI:{{ emi }}/m</h1>
+
+<button mat-raised-button class="btn btn-primary">Apply Loan</button><br/>
+          </div>
+      

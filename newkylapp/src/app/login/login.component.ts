@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
   onSubmit()
   {
        this.submitted = true;
-       if(this.loginForm.valid)
+       if(true)
        {
           localStorage.setItem("email",this.loginForm.get('email')?.value);
           localStorage.setItem("password",this.loginForm.get('password')?.value);  
@@ -41,9 +41,15 @@ export class LoginComponent implements OnInit{
           this.loginModel.password=this.password;
           this.clear();
           this.loginForm.disable();
-          this.loginservice.login(this.loginModel);
+          this.loginservice.login(this.loginModel).subscribe(data => {
+       
+          }, resErr => {
+            
+            console.log("err mess" +resErr);
 
-          this.router.navigate(['registration']);
+          });
+
+         // this.router.navigate(['registration']);
        }
   }
   clear()
