@@ -13,7 +13,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LoanDetailsComponent } from './loan-details/loan-details/loan-details.component';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { LoanDetailsComponent } from './loan-details/loan-details/loan-details.c
     LoginComponent,
     RegisterComponent,
     PasswordResetComponent,
-    LoanDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +31,9 @@ import { LoanDetailsComponent } from './loan-details/loan-details/loan-details.c
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    
+
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,17 @@
 export class LoanDetailsResponse{
 
-    email:string | undefined;
+    id:string | undefined;
 
-    password:string | undefined;
+    bank:string | undefined;
+
+    type:string | undefined;
+
+    roi:number | undefined;
+
+    tenure:number | undefined;
+
+
+
 
 
 

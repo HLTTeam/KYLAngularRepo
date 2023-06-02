@@ -41,15 +41,9 @@ export class LoginComponent implements OnInit{
           this.loginModel.password=this.password;
           this.clear();
           this.loginForm.disable();
-          this.loginservice.login(this.loginModel).subscribe(data => {
-       
-          }, resErr => {
-            
-            console.log("err mess" +resErr);
+          
 
-          });
-
-         // this.router.navigate(['registration']);
+         this.router.navigate(['loandetails']);
        }
   }
   clear()
