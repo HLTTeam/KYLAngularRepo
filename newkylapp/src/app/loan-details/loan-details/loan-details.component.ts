@@ -1,4 +1,6 @@
 import {  Component } from '@angular/core';
+import { LoanDetailsResponse } from 'src/app/model/loan-details-response.model';
+import { LoanDetailsService } from 'src/app/service/loan-details.service';
 
 @Component({
   selector: 'app-loan-details',
@@ -25,14 +27,26 @@ export class LoanDetailsComponent {
   credit: number = 0;
 
   gridsize: number = 30;
-  
+  loanDetailsResponse: LoanDetailsResponse[] = [];
+
   updateSetting(event:any) {
     this.gridsize = event.value;
   }
-  constructor() {
+  constructor(public loanDetailsService: LoanDetailsService) { 
     this.radioTitle = 'Loans';
     this.radioItems = ['New Loan', 'Top Up','Refinance'];
 
+  }
+  ngOnInit(): void {
+  
+    this.loanDetailsService.getLoans()
+    .subscribe(data => {
+      this.loanDetailsResponse=data;
+      
+    }, (error) => {
+      console.log("error message",+error)
+    });
+     
   }
 
   cal() {
