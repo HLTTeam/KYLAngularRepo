@@ -31,8 +31,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary my-btn dark">SIGN IN</button>
                 <div></div>
-                New User ?<span> </span><button class="btn btn-primary">Register Here</button>
-                <a href="#tf-passwordReset" class="btn btn-link">Forgot Password</a>
+                New User ?<span> </span><a [routerLink]="['/register']" class="btn btn-primary">Register Here</a>
+                <a [routerLink]="['/passwordReset']" class="btn btn-link">Forgot Password</a>
                 </form>
           </div>
       </div>
