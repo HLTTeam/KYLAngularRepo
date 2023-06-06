@@ -15,26 +15,27 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   name:string | undefined;
   email:string | undefined;
-  phone:String = '1234';
-  phone1:number = 1234;
-  address1:String ="test";
-  password:string = "passworD@09";
-  confirmPassword:String | undefined;
+  phone:number | undefined;
+  address:string | undefined;
+  password:string | undefined;
+  confirmPassword:string | undefined;
   registerModel: RegisterModel = new RegisterModel;
   constructor(private fb:FormBuilder,private router:Router, public registerService:RegisterService){}
   ngOnInit(): void 
   {
     this.registerForm = this.fb.group({
       name:['',[Validators.required]],
-      phone:['',[Validators.required]],
       email:['',[Validators.required,Validators.email]],
-      password:['',[Validators.required,Validators.pattern(
+      phone:['',[Validators.required,Validators.pattern('[- +()0-9]+')]],
+      address:['',[Validators.required]],
+      password:['',[Validators.required, Validators.pattern(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
       )]],
       confirmPassword:['',[Validators.required,Validators.pattern(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
-      )]]
+      )]],
     });
+    
   }
   get registerData(){
     return this.registerForm.controls;
@@ -42,34 +43,43 @@ export class RegisterComponent implements OnInit {
   onSubmit()
   {
        this.submitted = true;
+       console.log(this.registerForm.valid);
        if(this.registerForm.valid)
        {
+          localStorage.setItem("name",this.registerForm.get('name')?.value);
           localStorage.setItem("email",this.registerForm.get('email')?.value);
+          localStorage.setItem("phone",this.registerForm.get('phone')?.value);
+          localStorage.setItem("address",this.registerForm.get('address')?.value);
           localStorage.setItem("password",this.registerForm.get('password')?.value); 
+          localStorage.setItem("confirmPassword",this.registerForm.get('confirmPassword')?.value); 
           this.name=this.registerForm.get('name')?.value; 
           this.email=this.registerForm.get('email')?.value;
-          this.address1=this.registerForm.get('address')?.value;
+          this.phone=this.registerForm.get('phone')?.value;
+          this.address=this.registerForm.get('address')?.value;
           this.password=this.registerForm.get('password')?.value;
           this.confirmPassword=this.registerForm.get('confirmPassword')?.value;
           this.registerModel.name=this.name;
           this.registerModel.email=this.email;
-          this.registerModel.phone= this.phone1;     
-          this.registerModel.address = "Bangalore";    
+          this.registerModel.phone= this.phone;     
+          this.registerModel.address = this.address; 
           this.registerModel.password=this.password;
+          this.registerModel.confirmPassword=this.confirmPassword;
           this.clear();
           this.registerForm.disable();
-          this.registerService.registration(this.registerModel).subscribe(data => {
-          }, resErr => {
-            console.log("err mess" +resErr);
-          });
+          this.registerService.registration(this.registerModel);
+
           this.router.navigate(['login']);
        }
   }
   clear()
   {
     this.registerForm.patchValue({
+      name:'',
       email:'',
-      password:''
+      phone:'',
+      address:'',
+      password:'',
+      confirmPassword:''
     });
   }
 }
