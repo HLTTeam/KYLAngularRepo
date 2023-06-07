@@ -13,6 +13,9 @@ import { RegisterService } from '../service/register.service';
 export class RegisterComponent implements OnInit {
   registerForm!:FormGroup;
   submitted = false;
+  passwordsMatching = false;
+  isConfirmPassword = false;
+  confirmPasswordClass = 'form-control';
   name:string | undefined;
   email:string | undefined;
   phone:number | undefined;
@@ -71,6 +74,18 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['login']);
        }
   }
+
+  checkPasswords(pw: string, cpw: string) {
+    this.isConfirmPassword = true;
+    if (pw == cpw) {
+      this.passwordsMatching = true;
+      this.confirmPasswordClass = 'form-control is-valid';
+    } else {
+      this.passwordsMatching = false;
+      this.confirmPasswordClass = 'form-control is-invalid';
+    }
+  }
+
   clear()
   {
     this.registerForm.patchValue({
