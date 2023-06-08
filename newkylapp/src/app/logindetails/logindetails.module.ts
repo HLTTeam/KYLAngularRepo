@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 import { LoanDetailsRoutingModule } from '../loan-details-routing/loan-details-routing.module';
 import { LoanDetailsService } from '../service/loan-details.service';
 import { LoanDetailsComponent } from '../loan-details/loan-details/loan-details.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
 ];
@@ -14,6 +14,7 @@ const routes: Routes = [
   imports: [
     FormsModule,
     CommonModule,
+    ReactiveFormsModule,
     LoanDetailsRoutingModule
   ],
   providers: [LoanDetailsService]
