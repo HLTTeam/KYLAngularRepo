@@ -13,6 +13,10 @@ import { PasswordResetService } from '../service/password-reset.service';
 export class PasswordResetComponent implements OnInit {
   resetForm!:FormGroup;
   submitted = false;
+  passwordsMatching = false;
+  isConfirmPassword = false;
+  confirmPasswordClass = 'form-control';
+  email:string | undefined;
   password:string | undefined;
   confirmPassword:string | undefined;
   resetModel: PasswordResetModel = new PasswordResetModel;
@@ -20,6 +24,7 @@ export class PasswordResetComponent implements OnInit {
   ngOnInit(): void 
   {
     this.resetForm = this.fb.group({
+      email:['',[Validators.required,Validators.email]],
       password:['',[Validators.required,Validators.pattern(
         '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
       )]],
@@ -36,10 +41,13 @@ export class PasswordResetComponent implements OnInit {
        this.submitted = true;
        if(this.resetForm.valid)
        {
+          localStorage.setItem("email",this.resetForm.get('email')?.value);
           localStorage.setItem("password",this.resetForm.get('password')?.value);
           localStorage.setItem("confirmPassword",this.resetForm.get('confirmPassword')?.value); 
+          this.email=this.resetForm.get('email')?.value;
           this.password=this.resetForm.get('password')?.value;
           this.confirmPassword=this.resetForm.get('confirmPassword')?.value;
+          this.resetModel.email=this.email;
           this.resetModel.password=this.password;
           this.resetModel.confirmPassword=this.confirmPassword; 
           this.clear();
@@ -47,12 +55,25 @@ export class PasswordResetComponent implements OnInit {
           this.passwordResetService.reset(this.resetModel);
 
 
-          this.router.navigate(['registration']);
+          this.router.navigate(['login']);
        }
   }
+
+checkPasswords(pw: string, cpw: string) {
+  this.isConfirmPassword = true;
+  if (pw == cpw) {
+    this.passwordsMatching = true;
+    this.confirmPasswordClass = 'form-control is-valid';
+  } else {
+    this.passwordsMatching = false;
+    this.confirmPasswordClass = 'form-control is-invalid';
+  }
+}
+
   clear()
   {
     this.resetForm.patchValue({
+      email:'',
       password:'',
       confirmPassword:''
     });
