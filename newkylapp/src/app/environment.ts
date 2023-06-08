@@ -6,5 +6,5 @@ export const environment = {
     loginDetails: 'http://localhost:8084/kyluserprofile/api/v1/login',
     bankLoan:'http://localhost:8083/kylbankloan/api/v1/bankloan',
     resetURL: 'http://localhost:8084/kyluserprofile/api/v1/updatePassword',
-    applyLoan:'http://localhost:8083/kylbankloan/api/v1/bankloan/apply-loan
+    applyLoan:'http://localhost:8083/kylbankloan/api/v1/bankloan/apply-loan'
 }
