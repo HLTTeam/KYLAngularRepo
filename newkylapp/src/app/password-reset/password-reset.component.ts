@@ -68,9 +68,9 @@ export class PasswordResetComponent implements OnInit {
             } else if (error.status == 404) {
               this.errorMessage = "Resource not found.";
             }else if (error.status == 417) {
-              this.errorMessage = "User Email is not existed in system.";
+              this.errorMessage = "User Email is not registered in the system.";
             } else {
-              this.errorMessage = "User Email is not existed in system.";
+              this.errorMessage = "User Email is not registered in the system.";
             }
             this.showMsg = true;
           console.log("err mess" +this.errorMessage);

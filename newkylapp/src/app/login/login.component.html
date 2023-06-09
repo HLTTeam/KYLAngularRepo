@@ -31,7 +31,7 @@
                   <span class="text-danger" *ngIf="(loginData['password'].touched || submitted) && loginData['password'].errors?.['required']">
                     Password is required
                   </span>
-                  <span class="text-danger" *ngIf="(submitted && loginData['password'].hasError('required')) || loginData['password'].touched && loginData['password'].errors?.['invalidPassword']">
+                  <span class="text-danger" *ngIf="(submitted && loginData['password'].hasError('required')) || loginData['password'].touched && loginData['password'].errors?.['pattern']">
                     Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase
                     letter and 1 number
                   </span>
