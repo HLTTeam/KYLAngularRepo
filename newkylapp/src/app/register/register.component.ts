@@ -66,12 +66,16 @@ export class RegisterComponent implements OnInit {
           this.registerModel.phone= this.phone;     
           this.registerModel.address = this.address; 
           this.registerModel.password=this.password;
-          this.registerModel.confirmPassword=this.confirmPassword;
+          // this.registerModel.confirmPassword=this.confirmPassword;
           this.clear();
           this.registerForm.disable();
-          this.registerService.registration(this.registerModel);
+          this.registerService.registration(this.registerModel).subscribe(data => {            
+          }, resErr => {
+            console.log("err mess" +resErr);
+          });
 
           this.router.navigate(['login']);
+          
        }
   }
 

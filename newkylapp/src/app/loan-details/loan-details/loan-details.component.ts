@@ -84,6 +84,13 @@ export class LoanDetailsComponent implements OnInit{
         "tenure": 20
     },
     {
+      "id": "6475e83ea3dd6724357188eb",
+      "bank": "HDFC BANK",
+      "type": "Vechile",
+      "roi": 11.5,
+      "tenure": 20
+  },
+    {
         "id": "6475e850a3dd6724357188ec",
         "bank": "ICIC BANK",
         "type": "Personal",

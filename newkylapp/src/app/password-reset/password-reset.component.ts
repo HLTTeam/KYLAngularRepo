@@ -19,7 +19,9 @@ export class PasswordResetComponent implements OnInit {
   email:string | undefined;
   password:string | undefined;
   confirmPassword:string | undefined;
+  errorMessage:string | undefined;
   resetModel: PasswordResetModel = new PasswordResetModel;
+  showMsg : boolean = false;
   constructor(private fb:FormBuilder,private router:Router,public passwordResetService:PasswordResetService){}
   ngOnInit(): void 
   {
@@ -39,7 +41,8 @@ export class PasswordResetComponent implements OnInit {
   onSubmit()
   {
        this.submitted = true;
-       if(this.resetForm.valid)
+       
+       if(this.resetForm.valid || true)
        {
           localStorage.setItem("email",this.resetForm.get('email')?.value);
           localStorage.setItem("password",this.resetForm.get('password')?.value);
@@ -48,14 +51,37 @@ export class PasswordResetComponent implements OnInit {
           this.password=this.resetForm.get('password')?.value;
           this.confirmPassword=this.resetForm.get('confirmPassword')?.value;
           this.resetModel.email=this.email;
+          this.resetModel.userName = this.email;
           this.resetModel.password=this.password;
           this.resetModel.confirmPassword=this.confirmPassword; 
           this.clear();
           this.resetForm.disable();
-          this.passwordResetService.reset(this.resetModel);
-
-
+          console.log("Before call the reset passowrd servcie");
+          //this.passwordResetService.reset(this.resetModel);
+          this.passwordResetService.reset(this.resetModel).subscribe(data => {
+          }, (error) => {
+            console.log('error staus' + error.status);
+            if (error.status == 400) {
+              this.errorMessage = "XML mapping config already exist in adapter system.";
+            } else if (error.status == 401) {
+              this.errorMessage = "Unauthorized Request. API key is missing or invalid.";
+            } else if (error.status == 404) {
+              this.errorMessage = "Resource not found.";
+            }else if (error.status == 417) {
+              this.errorMessage = "User Email is not existed in system.";
+            } else {
+              this.errorMessage = "User Email is not existed in system.";
+            }
+            this.showMsg = true;
+          console.log("err mess" +this.errorMessage);
+          
+        });
+        console.log(typeof this.errorMessage != 'undefined');
+        console.log(this.errorMessage);
+        if(typeof this.errorMessage != 'undefined' && this.errorMessage){
           this.router.navigate(['login']);
+        }
+        this.router.navigate(['passwordReset']);
        }
   }
 

@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit{
   loginRespModel: LoginRespModel = new LoginRespModel;
   bearerToken : String = "Bearer asdfas342";
   userProfileID :string | undefined;
+  errorMessage : string | undefined;
+  showMsg : boolean = false;
+
   constructor(private fb:FormBuilder,private router:Router,public loginservice:LoginService){}
   ngOnInit(): void 
   {
@@ -54,8 +57,21 @@ export class LoginComponent implements OnInit{
             this.userProfileID = this.loginRespModel['id'];
             console.log(this.userProfileID);
             localStorage.setItem("userProfileID",this.userProfileID as string);  
-          }, resErr => {
-            console.log("err mess" +resErr);
+          }, (error) => {
+              console.log('error staus' + error.status);
+              if (error.status == 400) {
+                this.errorMessage = "XML mapping config already exist in adapter system.";
+              } else if (error.status == 401) {
+                this.errorMessage = "Unauthorized Request. API key is missing or invalid.";
+              } else if (error.status == 404) {
+                this.errorMessage = "Resource not found.";
+              } else if (error.status == 417) {
+                this.errorMessage = "Invalid data please provide correct data.";
+              } else {
+                this.errorMessage = "Invalid data please provide correct data.";
+              } 
+              this.showMsg = true;
+            console.log("err mess" +this.errorMessage);
           });
           console.log(this.loginRespModel);
           console.log(JSON.stringify(this.loginRespModel));
@@ -68,6 +84,7 @@ export class LoginComponent implements OnInit{
           console.log("UserProfileID is  null");
           //this.router.navigate(['login']);
           this.router.navigate(['login']);
+          //error message on the that invalid credentilals
           }
        }
   }
