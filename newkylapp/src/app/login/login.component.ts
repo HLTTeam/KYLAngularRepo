@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit{
               } else if (error.status == 404) {
                 this.errorMessage = "Resource not found.";
               } else if (error.status == 417) {
-                this.errorMessage = "Invalid data please provide correct data.";
+                this.errorMessage = "Login has failed. Due to Incorrect username/password..";
               } else {
                 this.errorMessage = "Invalid data please provide correct data.";
               } 

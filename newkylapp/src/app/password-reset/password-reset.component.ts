@@ -41,8 +41,7 @@ export class PasswordResetComponent implements OnInit {
   onSubmit()
   {
        this.submitted = true;
-       
-       if(this.resetForm.valid || true)
+       if(this.resetForm.valid)
        {
           localStorage.setItem("email",this.resetForm.get('email')?.value);
           localStorage.setItem("password",this.resetForm.get('password')?.value);
@@ -68,9 +67,9 @@ export class PasswordResetComponent implements OnInit {
             } else if (error.status == 404) {
               this.errorMessage = "Resource not found.";
             }else if (error.status == 417) {
-              this.errorMessage = "User Email is not registered in the system.";
+              this.errorMessage = "User Email is not existed in system.";
             } else {
-              this.errorMessage = "User Email is not registered in the system.";
+              this.errorMessage = "User Email is not existed in system.";
             }
             this.showMsg = true;
           console.log("err mess" +this.errorMessage);
@@ -82,7 +81,11 @@ export class PasswordResetComponent implements OnInit {
           this.router.navigate(['login']);
         }
         this.router.navigate(['passwordReset']);
+       }else{
+          this.errorMessage = "Invalid data please provide valid data.";
+          this.showMsg = true;
        }
+
   }
 
 checkPasswords(pw: string, cpw: string) {
