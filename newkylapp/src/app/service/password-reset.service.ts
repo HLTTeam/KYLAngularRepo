@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpErrorResponse,HttpParams} from '@angular/common/http';
 import { environment } from '../environment';
 import { PasswordResetModel } from '../model/password-reset-model';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class PasswordResetService {
       })
     };
 
-    reset(_resetModel:PasswordResetModel) {
+    reset(_resetModel:PasswordResetModel): Observable<any> {
       const _url = `${environment.resetURL}`;
       let httpOptions = this.httpOptions;
       httpOptions = {
@@ -38,7 +39,9 @@ export class PasswordResetService {
       let httpQueryParams: HttpParams =  new HttpParams();
      
       const options = { ...httpOptions, params: httpQueryParams };
-      return this.http.put(_url,_resetModel,options);
+      // return this.http.put(_url,_resetModel,options);
+      console.log("Before call the reset passowrd servcie");
+      return this.http.post(_url,_resetModel,options);
     }
 
 }

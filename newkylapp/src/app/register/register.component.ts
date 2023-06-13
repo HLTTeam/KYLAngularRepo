@@ -23,6 +23,8 @@ export class RegisterComponent implements OnInit {
   password:string | undefined;
   confirmPassword:string | undefined;
   registerModel: RegisterModel = new RegisterModel;
+  errorMessage : string | undefined;
+  showMsg : boolean = false;
   constructor(private fb:FormBuilder,private router:Router, public registerService:RegisterService){}
   ngOnInit(): void 
   {
@@ -66,12 +68,35 @@ export class RegisterComponent implements OnInit {
           this.registerModel.phone= this.phone;     
           this.registerModel.address = this.address; 
           this.registerModel.password=this.password;
-          this.registerModel.confirmPassword=this.confirmPassword;
+          // this.registerModel.confirmPassword=this.confirmPassword;
           this.clear();
           this.registerForm.disable();
-          this.registerService.registration(this.registerModel);
-
-          this.router.navigate(['login']);
+          this.registerService.registration(this.registerModel).subscribe(data => {            
+          }, (error) => {
+            console.log('error staus' + error.status);
+            if (error.status == 400) {
+              this.errorMessage = "XML mapping config already exist in adapter system.";
+            } else if (error.status == 401) {
+              this.errorMessage = "Unauthorized Request. API key is missing or invalid.";
+            } else if (error.status == 404) {
+              this.errorMessage = "Resource not found.";
+            } else if (error.status == 417) {
+              this.errorMessage = "Invalid data please provide correct data.";
+            } else {
+              this.errorMessage = "Invalid data please provide correct data.";
+            } 
+            this.showMsg = true;
+          console.log("err mess" +this.errorMessage);
+        });
+        
+        if(typeof this.errorMessage != 'undefined' && this.errorMessage){
+          this.router.navigate(['register']);
+        }
+        this.router.navigate(['login']);
+          
+       }else{
+        this.errorMessage = "Invalid data please provide valid data.";
+        this.showMsg = true;
        }
   }
 

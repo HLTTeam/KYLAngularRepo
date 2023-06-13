@@ -92,7 +92,7 @@ export class LoanDetailsComponent implements OnInit{
     {
       "id": "6475e83ea3dd6724357188eb",
       "bank": "HDFC BANK",
-      "type": "home",
+      "type": "Vechile",
       "roi": 11.5,
       "tenure": 20
   },

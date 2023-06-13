@@ -42,20 +42,14 @@ export class RegisterService {
         };
       console.log('URL '+_url);
       let httpQueryParams: HttpParams =  new HttpParams();
-     
       const options = { ...httpOptions, params: httpQueryParams };
       return this.http.post(_url,_registerModel,options);
-      
     }
 
     private handleAnyError(error: any) {
-
       let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-  
       console.log('status'+error.status);
-  
       return throwError(error);
-  
     }
 }
 

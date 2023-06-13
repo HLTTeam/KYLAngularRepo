@@ -6,6 +6,8 @@ export class PasswordResetModel{
 
     confirmPassword:string | undefined;
 
+    userName:string | undefined;
+
 
 
 }

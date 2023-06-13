@@ -4,7 +4,7 @@ import { environment } from '../environment';
 import { LoginModel } from '../model/login-model';
 import {catchError, retry, tap} from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-
+import { LoginRespModel } from '../model/login-resp-model';
 
 
 @Injectable({
@@ -27,7 +27,7 @@ export class LoginService {
     };
 
 
-    login(_loginModel:LoginModel):Observable<any> {
+    login(_loginModel:LoginModel):Observable<LoginRespModel> {
       const _url = `${environment.loginURL}`;
       let httpOptions = this.httpOptions;
       httpOptions = {
@@ -44,8 +44,9 @@ export class LoginService {
       let httpQueryParams: HttpParams =  new HttpParams();
      
       const options = { ...httpOptions, params: httpQueryParams };
-      return this.http.post(_url,_loginModel,options);
-      
+      // return this.http.post(_url,_loginModel,options);
+      return this.http.post<LoginRespModel>(_url, _loginModel, options);
+     
     }
 
     

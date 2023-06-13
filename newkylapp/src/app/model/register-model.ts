@@ -1,10 +1,12 @@
 export class RegisterModel{
 
-    name: string | undefined;
+    name:string | undefined;
     email:string | undefined;
-    phone:number | undefined;
     address:string | undefined;
+    incomeType:string | undefined;
+    phone:Number | undefined;
+    income:Number | undefined;
+    expenses:Number | undefined;
     password:string | undefined;
-    confirmPassword:string | undefined;
 
 }
