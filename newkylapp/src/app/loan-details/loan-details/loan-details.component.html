@@ -3,16 +3,17 @@
 <h2>{{radioTitle}}</h2>
 <div class="space"></div>
 <form id="loanDetailsForm" form [formGroup]="loanDetailsForm" (ngSubmit)="applyLoan()">
+  <div class="form-group">
 
-  <label><input type="radio" formControlName="options" name="options" value="New" checked>New Loan</label>
-  <label><input type="radio" formControlName="options" value="topUp">Top UP</label>
-  <label><input type="radio" formControlName="options" value="ReFinance">ReFinance</label>
-
+  <input type="radio" formControlName="options" name="options" [checked]="true" value="New" class="ng-valid ng-dirty ng-touched"/><label>New Loan</label>
+  <input type="radio" formControlName="options" name="options" value="topUp"/><label>Top UP</label>
+  <input type="radio" formControlName="options" name="options" value="ReFinance"/><label>ReFinance</label>
+</div>
 
     <div class="form-group">
       <label for="FieldName"  class="control-label">Select a Bank</label>
-          <select class="form-control" formControlName="bankName" style="width:25%"  required >
-              <option *ngFor="let division of bankList" [value]="division">
+          <select class="form-control" formControlName="bankName" style="width:25%" (change)="selectedBankValue($event)" required >
+              <option *ngFor="let division of bankListUnique" [value]="division">
                 {{ division }}
               </option>
             </select>
@@ -21,7 +22,7 @@
 
     <div class="form-group">
       <label for="FieldName" class="control-label">Type of loan</label>
-          <select class="form-control" formControlName="loanName" style="width:25%" required >
+          <select class="form-control" formControlName="loanName" style="width:25%" (change)="selectedLoanValue($event)" required >
               <option *ngFor="let loan of loanList" [value]="loan">
                 {{ loan }}
               </option>
@@ -32,7 +33,7 @@
     Expenses:<input type="number" formControlName="expenses" [(ngModel)]="expenses" /><br />
     Credit Amount:<input type="number" formControlName="credit" [(ngModel)]="credit" /><br />
 
-    <button mat-raised-button class="btn btn-danger">Check Eligibility</button><br/>
+    <button mat-raised-button class="btn btn-danger" (click)="cal()">Check Eligibility</button><br/>
 
 
 Loan Amount:<input type="number" formControlName="loanAmount" [(ngModel)]="loanAmount" /><br />

@@ -16,8 +16,8 @@ export class LoanDetailsComponent implements OnInit{
   radioItems: Array<string>;
   model   = {option: 'New Loan'};
   newLoan:boolean=true;
-  bankList: Array<string> = []
-
+  bankList: Array<string> = [];
+  bankListUnique: Array<string> = [];
   loanList:string[]=[];
   loanValues: string[] = Object.values(TypeOfLoan);
 
@@ -32,7 +32,11 @@ export class LoanDetailsComponent implements OnInit{
 
   gridsize: number = 30;
   loanDetailsResponse: LoanDetailsResponse[] = [];
+  loanDetailsResponseROI: LoanDetailsResponse = new LoanDetailsResponse;
+
   applyLoanRequest: ApplyLoanRequest = new ApplyLoanRequest;
+
+  showErr:boolean=false;
 
 
   updateSetting(event:any) {
@@ -51,7 +55,9 @@ export class LoanDetailsComponent implements OnInit{
       credit : new FormControl(),
       loanAmount : new FormControl(),
       tenure : new FormControl(),
-      options: new FormControl()
+      options: new FormControl(),
+      interest: new FormControl()
+
 
      
     });
@@ -71,7 +77,7 @@ export class LoanDetailsComponent implements OnInit{
     this.loanDetailsResponse=[
       {
         "id": "6475e7fda3dd6724357188e9",
-        "bank": "AXIS BANK",
+        "bank": "ICIC BANK",
         "type": "home",
         "roi": 13.5,
         "tenure": 20
@@ -84,12 +90,26 @@ export class LoanDetailsComponent implements OnInit{
         "tenure": 20
     },
     {
+      "id": "6475e83ea3dd6724357188eb",
+      "bank": "HDFC BANK",
+      "type": "home",
+      "roi": 11.5,
+      "tenure": 20
+  },
+    {
         "id": "6475e850a3dd6724357188ec",
         "bank": "ICIC BANK",
         "type": "Personal",
         "roi": 10.6,
         "tenure": 20
-    }
+    },
+    {
+      "id": "6475e83ea3dd6724357188eb",
+      "bank": "AXIS",
+      "type": "Personal",
+      "roi": 11.5,
+      "tenure": 20
+  },
     ]
 
     this.loanDetailsResponse.forEach(element => {
@@ -98,9 +118,30 @@ export class LoanDetailsComponent implements OnInit{
     this.loanDetailsResponse.forEach(element => {
       this.loanList.push(element.type ? element.type:"");
     });
+let cc=[];
+     cc=this.loanDetailsResponse.filter(it => {
+      return it.bank?.includes("ICIC BANK") && it.type?.includes("Personal")
+    });
 
-    console.log("bank =>"+JSON.stringify(this.bankList));
-    console.log("loan =>"+JSON.stringify(this.loanList));
+    const checkIfExists = (element: string) => {
+      let exist = false;
+      for (let i = 0; i < this.bankListUnique.length; i++) {
+        if (this.bankListUnique[i] === element) {
+          exist = true;
+          break;
+        }
+      }
+      return exist;
+    };
+
+    for (let i = 0; i < this.bankList.length; i++) {
+      if (!checkIfExists(this.bankList[i])) {
+        this.bankListUnique.push(this.bankList[i]);
+      }
+    }
+    console.log("bank roi =>"+JSON.stringify(cc[0].roi));
+
+
 
   }
 
@@ -109,6 +150,57 @@ export class LoanDetailsComponent implements OnInit{
       Number(this.loanAmount) +
       Number(this.loanAmount * (this.interest / 100) * this.tenure);
     this.emi = outstandingAmount / this.tenure;
+    this.checkEligibility();
+  }
+checkEligibility(){
+  var actualIncome =Number(this.income)-((Number(this.expenses)+Number(this.credit)));
+  console.log("actual income",actualIncome);
+  console.log("EMI ",this.emi);
+
+  if(actualIncome>this.emi){
+    this.showErr=false;
+  }else{
+    this.showErr=true;
+  }
+      
+
+}
+selectedLoanValue(val: any){
+    console.log("bb",this.loanDetailsForm.get('bankName')?.value);
+    console.log("ll",this.loanDetailsForm.get('loanName')?.value);
+    let cc=[];
+     cc=this.loanDetailsResponse.filter(it => {
+      return it.bank?.includes(this.loanDetailsForm.get('bankName')?.value) && 
+      it.type?.includes(this.loanDetailsForm.get('loanName')?.value)
+    });
+    let loanListCC=[];
+    loanListCC=this.loanDetailsResponse.filter(it => {
+      return it.bank?.includes(this.loanDetailsForm.get('bankName')?.value);
+    });
+
+    console.log("loanListCC==>>"+JSON.stringify(loanListCC));
+
+
+    this.interest=cc[0].roi ? cc[0].roi :0;
+    console.log("rodi==>>"+this.interest)
+  }
+
+  selectedBankValue(val: any){
+    console.log("bb",this.loanDetailsForm.get('bankName')?.value);
+    console.log("ll",this.loanDetailsForm.get('loanName')?.value);
+    
+    let loanListCC=[];
+    loanListCC=this.loanDetailsResponse.filter(it => {
+      return it.bank?.includes(this.loanDetailsForm.get('bankName')?.value);
+    });
+
+    console.log("loanListCC==>>"+JSON.stringify(loanListCC));
+    this.loanList=[];
+    loanListCC.forEach(element => {
+      this.loanList.push(element.type ? element.type:"");
+    });
+
+    
   }
 
   applyLoan(){

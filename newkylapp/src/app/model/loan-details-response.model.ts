@@ -6,7 +6,7 @@ export class LoanDetailsResponse{
 
     type:string | undefined;
 
-    roi:number | undefined;
+    roi:number=0;
 
     tenure:number | undefined;
 
