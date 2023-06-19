@@ -1,5 +1,5 @@
 p {
-    font-family: Lato;
+  font-family: Arial, Helvetica, sans-serif;
   }
 
   mat-slider {
@@ -8,4 +8,23 @@ p {
   
   input[type="radio"]:checked + label {
     font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oxygen'), local('Oxygen-Regular'), url(https://fonts.gstatic.com/s/oxygen/v5/LC4u_jU27qpsdszDEgeU_3-_kf6ByYO6CLYdB4HQE-Y.woff2) format('woff2');
+  unicode-range: U+30-39;
+}
+
+.alert-warning {
+  color: red;
+  background-color: #ffffff;
+  border-color: #faebcc;
+}
+.test{
+  font-variant-numeric: normal;
+  font-weight: 400;
+font-size: 20 px;
 }

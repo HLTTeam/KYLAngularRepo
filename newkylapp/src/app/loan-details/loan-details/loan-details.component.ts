@@ -15,6 +15,7 @@ export class LoanDetailsComponent implements OnInit{
   radioTitle: string;
   radioItems: Array<string>;
   model   = {option: 'New Loan'};
+  myProperty="New";
   newLoan:boolean=true;
   bankList: Array<string> = [];
   bankListUnique: Array<string> = [];
@@ -22,9 +23,10 @@ export class LoanDetailsComponent implements OnInit{
   loanValues: string[] = Object.values(TypeOfLoan);
 
   loanAmount: number = 200000;
-  tenure: number = 10;
+  tenure: number = 12;
   interest: number = 5;
   emi: number = 0;
+  emiValue: string='';
 
   income: number = 0;
   expenses: number = 0;
@@ -37,6 +39,72 @@ export class LoanDetailsComponent implements OnInit{
   applyLoanRequest: ApplyLoanRequest = new ApplyLoanRequest;
 
   showErr:boolean=false;
+  selectedValue: any;
+  searchTxt: any;
+  errorMessage: string="";
+
+
+  tenureInMonths = [{
+    value : 12,
+    viewValue : 12
+  },{
+    value : 24,
+    viewValue : 24
+  },{
+    value : 36,
+    viewValue : 36
+  },{
+    value : 48,
+    viewValue : 48
+  },{
+    value : 60,
+    viewValue : 60
+  },{
+    value : 72,
+    viewValue : 72
+  },{
+    value : 84,
+    viewValue : 84
+  },{
+    value : 96,
+    viewValue : 96
+  },{
+    value : 108,
+    viewValue : 108
+  },{
+    value : 120,
+    viewValue : 120
+  },{
+    value : 132,
+    viewValue : 132
+  },{
+    value : 144,
+    viewValue : 144
+  },{
+    value : 156,
+    viewValue : 156
+  },{
+    value : 168,
+    viewValue : 168
+  },{
+    value : 180,
+    viewValue : 180
+  },{
+    value : 192,
+    viewValue : 192
+  },{
+    value : 204,
+    viewValue : 204
+  },{
+    value : 216,
+    viewValue : 216
+  },{
+    value : 228,
+    viewValue : 228
+  },{
+    value : 240,
+    viewValue : 240
+  }];
 
 
   updateSetting(event:any) {
@@ -56,7 +124,7 @@ export class LoanDetailsComponent implements OnInit{
       loanAmount : new FormControl(),
       tenure : new FormControl(),
       options: new FormControl(),
-      interest: new FormControl()
+      interest: new FormControl({value: '', disabled: true}),
 
 
      
@@ -64,7 +132,8 @@ export class LoanDetailsComponent implements OnInit{
 
   }
   ngOnInit(): void {
-  
+    this.selectedValue = this.tenureInMonths[0].value;
+
     /*this.loanDetailsService.getLoans()
     .subscribe(data => {
       this.loanDetailsResponse=data;
@@ -146,11 +215,12 @@ let cc=[];
   }
 
   cal() {
+    console.log("this.tenure =>",this.tenure);
     var outstandingAmount =
       Number(this.loanAmount) +
       Number(this.loanAmount * (this.interest / 100) * this.tenure);
     this.emi = outstandingAmount / this.tenure;
-    this.checkEligibility();
+    this.emiValue=this.emi.toFixed(2);
   }
 checkEligibility(){
   var actualIncome =Number(this.income)-((Number(this.expenses)+Number(this.credit)));
@@ -160,6 +230,7 @@ checkEligibility(){
   if(actualIncome>this.emi){
     this.showErr=false;
   }else{
+    this.errorMessage="Not eligible due to low cibil score";
     this.showErr=true;
   }
       
@@ -202,6 +273,15 @@ selectedLoanValue(val: any){
 
     
   }
+
+  selectedTenureInMonths(val: any){
+    console.log("any==>>",val.target.value)
+
+this.tenure=Number(val.target.value);
+console.log("vvv==>>",this.tenure)
+    
+  }
+
 
   applyLoan(){
 

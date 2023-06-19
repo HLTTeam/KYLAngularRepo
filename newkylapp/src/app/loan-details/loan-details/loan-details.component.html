@@ -5,10 +5,12 @@
 <form id="loanDetailsForm" form [formGroup]="loanDetailsForm" (ngSubmit)="applyLoan()">
   <div class="form-group">
 
-  <input type="radio" formControlName="options" name="options" [checked]="true" value="New" class="ng-valid ng-dirty ng-touched"/><label>New Loan</label>
-  <input type="radio" formControlName="options" name="options" value="topUp"/><label>Top UP</label>
-  <input type="radio" formControlName="options" name="options" value="ReFinance"/><label>ReFinance</label>
+  <input type="radio" checked name="options"  [(ngModel)]="myProperty"  value="New"/><label>New Loan</label>
+  <input type="radio"  [(ngModel)]="myProperty" formControlName="options" name="options" value="topUp"/><label>Top UP</label>
+  <input type="radio"  [(ngModel)]="myProperty"  formControlName="options" name="options" value="ReFinance"/><label>ReFinance</label>
 </div>
+
+
 
     <div class="form-group">
       <label for="FieldName"  class="control-label">Select a Bank</label>
@@ -29,20 +31,34 @@
             </select>
             
     </div>
-    Income:<input type="number" formControlName="income" [(ngModel)]="income" /><br />
-    Expenses:<input type="number" formControlName="expenses" [(ngModel)]="expenses" /><br />
-    Credit Amount:<input type="number" formControlName="credit" [(ngModel)]="credit" /><br />
+    <table border="0" cellpadding="2" width="29%">
 
-    <button mat-raised-button class="btn btn-danger" (click)="cal()">Check Eligibility</button><br/>
+    <tr><td>Income:</td><td><input type="number" formControlName="income" [(ngModel)]="income" /><br /><br /></td></tr>
+    <tr><td>Expenses:</td><td><input type="number" formControlName="expenses" [(ngModel)]="expenses" /><br /><br /></td></tr>
+    <tr><td>Credit Amount:</td><td><input type="number" formControlName="credit" [(ngModel)]="credit" /><br /><br /></td></tr>
 
 
-Loan Amount:<input type="number" formControlName="loanAmount" [(ngModel)]="loanAmount" /><br />
-Tenure in Months:<input type="number" formControlName="tenure" [(ngModel)]="tenure" /> <br />
-interest:
-<input type="number" [(ngModel)]="interest" formControlName="interest" />
+
+    <tr><td>Loan Amount:</td><td><input type="number" formControlName="loanAmount" [(ngModel)]="loanAmount" /><br /><br /></td></tr>
+    <tr><td>Tenure in Months:</td><td><select  placeholder="Select price" name="item" (change)="selectedTenureInMonths($event)">
+  <option *ngFor="let item of tenureInMonths" [value]="item.value">
+    {{ item.value }}
+  </option>
+</select><br /><br /></td></tr>
+<tr><td>interest:</td>
+<td><input [(ngModel)]="interest" formControlName="interest" /><br /><br /></td></tr>
+    </table>
 <button (click)="cal()">Calculate</button>
-<h1>EMI:{{ emi }}/m</h1>
+<h1 class="test">EMI:{{ emiValue }}/m</h1>
+  <div  *ngIf="showErr">
+      <p class="alert alert-warning">
+        <strong>{{errorMessage}}</strong>
+      </p>
+    
+  </div>
 
-<button mat-raised-button class="btn btn-primary" (click)="applyLoan()">Apply Loan</button><br/>
+<button mat-raised-button class="btn btn-danger" (click)="checkEligibility()">Check Eligibility</button>
+
+<button mat-raised-button class="btn btn-primary" (click)="applyLoan()" [disabled]="this.showErr">Apply Loan</button><br/>
 </form>
           </div>
